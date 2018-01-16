@@ -120,7 +120,52 @@ To edit files, run `gedit`, a graphical editor akin to notepad; `nano`, a simple
 1. Check the installed packages for "hacking tools," such as password crackers.
 
 1. Run other (more comprehensive) checklists. This is checklist designed to get most of the common points, but it may not catch everything.
- 
+
+## Additional Steps
+
+1. Make sure updates are installed automatically (install them now) and that the user is notified about new LTS versions. However, DO NOT ACTUALLY TRY TO INSTALL NEW LTS VERSIONS.
+
+2. Turn on firewall logging.
+	`sudo apt-get install gufw`
+	`gufw`
+	Click "Unlock" in bottom-right corner.
+	Click "Edit" from menu bar and then "Preferences".
+	Set the "Logging" dropdown box to "Full" and check the "Logging", "Listening Report", and "Show Notifications" checkboxes.
+
+3. Browse the files to look for malicious files. Delete any unauthorized or suspicious files.
+4. Disable SSH login if Readme allows.
+	`sudo gedit /etc/ssh/sshd_config`
+	Change PermitRootLogin yes to PermitRootLogin no.
+
+## Users and Passwords
+1. Check user accounts (privileges, unauthorized users, all accounts are password protected with strong passwords).
+2. Delete unauthorized users.
+3. Set password requirements.
+4. Work with PAM files.
+5. Change users that should be standard but are administrators to standard.
+
+## Packages and Processes
+1. Remove prohibited packages. However, some of these applications may be required, so check under "essential services" in the README.
+	`dpkg-query -l | grep ftp`
+	`dpkg-query -l | grep ssh`
+	`dpkg-query -l | grep apache`
+	`dpkg-query -l | grep torrent`
+2. Stop evil processes. Again, check the README for exceptions.
+	`ps -ef | grep nc`
+	`ps -ef | grep ftp`
+	`ps -ef | grep ssh`
+	To kill a process, look at the second number on the line outputted by ps -ef describing the process and run sudo kill -KILL [NUM].
+	
+	`sudo service vsftpd stop`
+	`sudo service sshd stop`
+	`sudo service apache2 stop`
+	
+## Check the CRON jobs.
+	
+	Check /etc/cron.d/ for CRON jobs of logged in user.
+	Check root CRON jobs with sudo crontab -e
+	Check other user's CRON jobs with sudo crontab -u
+
 ## Tips
 
 * Netcat is installed by default in ubuntu. You will most likely not get points for removing this version.
